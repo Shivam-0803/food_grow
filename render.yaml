@@ -1,0 +1,47 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Connect this repo in Render → New → Blueprint → apply this file.
+# Set MONGODB_URI_STANDARD in the dashboard (Atlas → Connect → standard connection string).
+
+services:
+  - type: web
+    name: foodflow-api
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MONGODB_DB
+        value: foodflow
+      - key: MONGODB_URI_STANDARD
+        sync: false
+      - key: CLIENT_URL
+        fromService:
+          type: web
+          name: foodflow-web
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: foodflow-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: foodflow-api
+          envVarKey: RENDER_EXTERNAL_URL
