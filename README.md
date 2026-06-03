@@ -9,7 +9,13 @@ Perishable food inventory tracking across multiple stores with transfer recommen
 
 ## Deploy on Render
 
-See **[DEPLOY_RENDER.md](./DEPLOY_RENDER.md)**. Use the included `render.yaml` Blueprint or create two services (API + static frontend).
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Shivam-0803/food_grow)
+
+1. Click the button above (sign in with **GitHub** → **Shivam-0803**).
+2. When prompted for **`MONGODB_URI_STANDARD`**, paste the value from your local `backend/.env`.
+3. Click **Apply** — Render creates `foodflow-api` and `foodflow-web`.
+
+See **[DEPLOY_RENDER.md](./DEPLOY_RENDER.md)** for manual setup and Atlas IP whitelist (`0.0.0.0/0`).
 
 ## Quick Start
 
